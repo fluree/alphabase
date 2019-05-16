@@ -1,6 +1,6 @@
-(defproject mvxcvi/alphabase "2.0.4-SNAPSHOT"
+(defproject fluree/alphabase "3.0.0"
   :description "Clojure(script) library to encode binary data with alphabet base strings."
-  :url "https://github.com/greglook/alphabase"
+  :url "https://github.com/fluree/alphabase"
   :license {:name "Public Domain"
             :url "http://unlicense.org/"}
 

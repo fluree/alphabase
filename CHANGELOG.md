@@ -9,6 +9,19 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ...
 
+## [3.0.0] - 2019-03-14
+
+Fork of [greglook/alphabase](//github.com/greglook/alphabase/) with goal of 
+maintaining java compatibility and adding additional features.
+
+### Fixed
+- Java 9+ compatibility remove java.bind.xml
+
+### Added
+- base64 convenience namespace
+- base conversion utilities added to core namespace
+  
+
 ## [2.0.3] - 2019-01-20
 
 ### Fixed

@@ -6,14 +6,14 @@
 (defn to-byte
   "Coerces a number to a byte value."
   [x]
-  #?(:clj (if (< 127 x) (- x 256) x)
+  #?(:clj  (if (< 127 x) (- x 256) x)
      :cljs x))
 
 
 (defn from-byte
   "Coerces a byte value to a number."
   [x]
-  #?(:clj (if (neg? x) (+ 256 x) x)
+  #?(:clj  (if (neg? x) (+ 256 x) x)
      :cljs x))
 
 
@@ -33,7 +33,7 @@
   "Return a sequence of the bytes in an array, after coercion."
   [array]
   (when array
-    #?(:clj (map from-byte array)
+    #?(:clj  (map from-byte array)
        :cljs (map #(aget array %) (range (alength array))))))
 
 
@@ -42,10 +42,10 @@
   [x]
   #?(:clj (clojure.core/bytes? x)
      :cljs
-     (or (instance? js/Uint8Array x)
-         (and (instance? js/Array x)
-              (or (empty? x)
-                  (integer? (first x)))))))
+          (or (instance? js/Uint8Array x)
+              (and (instance? js/Array x)
+                   (or (empty? x)
+                       (integer? (first x)))))))
 
 
 (defn bytes=
@@ -70,7 +70,7 @@
   "Creates a new array to hold byte data."
   ^bytes
   [length]
-  #?(:clj (clojure.core/byte-array length)
+  #?(:clj  (clojure.core/byte-array length)
      :cljs (js/Uint8Array. (js/ArrayBuffer. length))))
 
 
@@ -91,9 +91,9 @@
   ([^bytes src dst dst-offset]
    (copy src 0 dst dst-offset (alength src)))
   ([^bytes src src-offset ^bytes dst dst-offset length]
-   #?(:clj (System/arraycopy src src-offset dst dst-offset length)
-      :cljs (dotimes [i length]
-              (set-byte dst (+ i dst-offset) (get-byte src (+ i src-offset)))))
+    #?(:clj  (System/arraycopy src src-offset dst dst-offset length)
+       :cljs (dotimes [i length]
+               (set-byte dst (+ i dst-offset) (get-byte src (+ i src-offset)))))
    length))
 
 
@@ -102,7 +102,7 @@
   ^bytes
   [values]
   (let [length (count values)
-        data (byte-array length)]
+        data   (byte-array length)]
     (dotimes [i length]
       (set-byte data i (nth values i)))
     data))
@@ -113,7 +113,7 @@
   ^bytes
   [length]
   (let [data (byte-array length)]
-    #?(:clj (.nextBytes (java.security.SecureRandom.) data)
+    #?(:clj  (.nextBytes (java.security.SecureRandom.) data)
        :cljs (dotimes [i length]
                (set-byte data i (rand-int 256))))
     data))
@@ -163,10 +163,10 @@
   "Concatenate bytes arrays into a single new byte array."
   ^bytes
   [& arrs]
-  (let [arrs (remove nil? arrs)
+  (let [arrs      (remove nil? arrs)
         total-len (reduce + (map #(alength ^bytes %) arrs))
-        dst (byte-array total-len)]
-    (loop [arrs arrs
+        dst       (byte-array total-len)]
+    (loop [arrs   arrs
            offset 0]
       (when-let [^bytes src (first arrs)]
         (copy src 0 dst offset (alength src))
