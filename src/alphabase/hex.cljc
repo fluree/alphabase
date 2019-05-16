@@ -1,8 +1,17 @@
 (ns alphabase.hex
   "Functions to encode and decode bytes as hexadecimal."
-  (:require
-    [alphabase.bytes :as bytes]
-    [clojure.string :as str]))
+  (:require [alphabase.bytes :as bytes]
+            [clojure.string :as str]
+            [clojure.set :as set]))
+
+(def ^:const hex-chars "0123456789ABCDEFabcdef")
+(def ^:const hex-set (set hex-chars))
+
+
+(defn hex?
+  "Test if input is hex char set."
+  [x]
+  (and (string? x) (set/subset? (set x) hex-set)))
 
 
 (defn byte->hex
@@ -18,7 +27,7 @@
 (defn hex->byte
   "Converts a two-character hex string into a byte value."
   [hex]
-  #?(:clj (Integer/parseInt hex 16)
+  #?(:clj  (Integer/parseInt hex 16)
      :cljs (js/parseInt hex 16)))
 
 
@@ -39,13 +48,14 @@
   array is zero-padded to match the hex string length."
   ^bytes
   [^String data]
-  #?(:clj (when-not (empty? data)
-            (if (= data "00")
-              (byte-array 1)
-              (javax.xml.bind.DatatypeConverter/parseHexBinary data)))
+  #?(:clj  (letfn [(unhexify-2 [c1 c2]
+                     (unchecked-byte
+                       (+ (bit-shift-left (java.lang.Character/digit ^char c1 16) 4)
+                          (java.lang.Character/digit ^char c2 16))))]
+             (byte-array (map #(apply unhexify-2 %) (partition 2 data))))
      :cljs (when-not (empty? data)
              (let [length (/ (count data) 2)
-                   array (bytes/byte-array length)]
+                   array  (bytes/byte-array length)]
                (dotimes [i length]
                  (let [hex (subs data (* 2 i) (* 2 (inc i)))]
                    (bytes/set-byte array i (hex->byte hex))))
@@ -59,18 +69,18 @@
   [value]
   (cond
     (not (string? value))
-      (str "Value is not a string: " (pr-str value))
+    (str "Value is not a string: " (pr-str value))
 
     (not (re-matches #"^[0-9a-fA-F]*$" value))
-      (str "String '" value "' is not valid hex: "
-           "contains illegal characters")
+    (str "String '" value "' is not valid hex: "
+         "contains illegal characters")
 
     (< (count value) 2)
-      (str "Hex string must contain at least one byte")
+    (str "Hex string must contain at least one byte")
 
     (odd? (count value))
-      (str "String '" value "' is not valid hex: "
-           "number of characters (" (count value) ") is odd")
+    (str "String '" value "' is not valid hex: "
+         "number of characters (" (count value) ") is odd")
 
     :else nil))
 
