@@ -1,7 +1,7 @@
 (ns alphabase.base64
   "Base 64 optimized namespace"
-  (:require [alphabase.codec :as abc]
-            [clojure.set :as set])
+  (:require [clojure.set :as set]
+            #?@(:cljs [[goog.crypt.base64 :as g-base64]]))
   #?(:clj (:import (java.util Base64))))
 
 (def ^:const base64-chars "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=")
@@ -14,7 +14,7 @@
   [data]
   #?(:clj  (-> (Base64/getEncoder)
                (.encodeToString data))
-     :cljs (abc/encode base64-chars data)))
+     :cljs (g-base64/encodeByteArray b)))
 
 
 (defn decode
@@ -23,7 +23,7 @@
   [tokens]
   #?(:clj  (-> (Base64/getDecoder)
                (.decode ^String tokens))
-     :cljs (abc/decode base64-chars tokens)))
+     :cljs (g-base64/decodeStringToByteArray tokens)))
 
 
 (defn base64?
