@@ -14,7 +14,7 @@
   [data]
   #?(:clj  (-> (Base64/getEncoder)
                (.encodeToString data))
-     :cljs (g-base64/encodeByteArray b)))
+     :cljs (g-base64/encodeByteArray data)))
 
 
 (defn decode
