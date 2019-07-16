@@ -2,7 +2,22 @@
   (:require [alphabase.base64 :as base64]
             [alphabase.base58 :as base58]
             [alphabase.codec :as codec]
-            [alphabase.hex :as ahex]))
+            [alphabase.hex :as ahex]
+            #?@(:cljs [[goog.crypt :as gcrypt]])))
+
+
+(defn string->bytes
+  "Converts string to UTF-8 bytes"
+  [s]
+  #?(:clj (.getBytes ^String s)
+     :cljs (gcrypt/stringToByteArray s)))
+
+
+(defn bytes->string
+  "Converts UTF8 byte array to string"
+  [ba]
+  #?(:clj (String. ba)
+     :cljs (gcrypt/byteArrayToString ba)))
 
 
 (defn biginteger->bytes
