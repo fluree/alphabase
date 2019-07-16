@@ -33,8 +33,8 @@
   {:dev
    {:dependencies
     [[criterium "0.4.4"]
-     [org.clojure/clojure "1.9.0"]
-     [org.clojure/clojurescript "1.10.439"]]}
+     [org.clojure/clojure "1.10.1"]
+     [org.clojure/clojurescript "1.10.520"]]}
 
    :doo
    {:dependencies
