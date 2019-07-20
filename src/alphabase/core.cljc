@@ -117,36 +117,37 @@
 
 (defn byte-array-to-base
   [data output-format]
-  (let [data #?(:clj (byte-array data)
-                :cljs data)]
+  (let [ba #?(:clj (byte-array data)
+              :cljs data)]
     (case output-format
-      :hex (bytes->hex data)
-      :base64 (bytes->base64 data)
-      :base58 (bytes->base58 data)
-      :bytes data
-      :biginteger (bytes->biginteger data)
-      :string (string->bytes data)
-      :none data
-      nil data
+      :hex (bytes->hex ba)
+      :base64 (bytes->base64 ba)
+      :base58 (bytes->base58 ba)
+      :bytes ba
+      :biginteger (bytes->biginteger ba)
+      :string (string->bytes ba)
+      :none ba
+      nil ba
       (throw (ex-info "Unsupported output-format"
                       {:data          data
                        :output-format output-format})))))
 
 
 (defn base-to-byte-array
-  "Convert a string of specified base to a byte-array"
-  [data format]
-  (case format
-    :hex (hex->bytes data)
-    :base64 (base64->bytes data)
-    :base58 (base58->bytes data)
-    :bytes #?(:clj  (byte-array data)
-              :cljs data)
-    :string (bytes->string data)
-    :biginteger (biginteger->bytes data)
-    (throw (ex-info "Unsupported format"
-                    {:data   data
-                     :format format}))))
+  "Convert data of specified base to a byte-array"
+  ([data] (base-to-byte-array data (if (string? data) :string :bytes)))
+  ([data format]
+   (case format
+     :hex (hex->bytes data)
+     :base64 (base64->bytes data)
+     :base58 (base58->bytes data)
+     :bytes #?(:clj  (byte-array data)
+               :cljs data)
+     :string (bytes->string data)
+     :biginteger (biginteger->bytes data)
+     (throw (ex-info "Unsupported format"
+                     {:data   data
+                      :format format})))))
 
 
 (defn base-to-base
@@ -158,14 +159,6 @@
 
     (= input-format output-format)
     data
-
-    (= [:base58 :hex]
-       [input-format output-format])
-    (base58-to-hex data)
-
-    (= [:hex :base58]
-       [input-format output-format])
-    (hex-to-base58 data)
 
     :else
     (-> data
