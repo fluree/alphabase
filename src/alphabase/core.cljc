@@ -9,14 +9,14 @@
 (defn string->bytes
   "Converts string to UTF-8 bytes"
   [s]
-  #?(:clj (.getBytes ^String s)
+  #?(:clj  (.getBytes ^String s)
      :cljs (gcrypt/stringToByteArray s)))
 
 
 (defn bytes->string
   "Converts UTF8 byte array to string"
   [ba]
-  #?(:clj (String. ba)
+  #?(:clj  (String. ba)
      :cljs (gcrypt/byteArrayToString ba)))
 
 
@@ -120,11 +120,14 @@
   (let [data #?(:clj (byte-array data)
                 :cljs data)]
     (case output-format
-      :biginteger (bytes->biginteger data)
       :hex (bytes->hex data)
       :base64 (bytes->base64 data)
       :base58 (bytes->base58 data)
       :bytes data
+      :biginteger (bytes->biginteger data)
+      :string (string->bytes data)
+      :none data
+      nil data
       (throw (ex-info "Unsupported output-format"
                       {:data          data
                        :output-format output-format})))))
@@ -134,12 +137,13 @@
   "Convert a string of specified base to a byte-array"
   [data format]
   (case format
-    :biginteger (biginteger->bytes data)
     :hex (hex->bytes data)
     :base64 (base64->bytes data)
     :base58 (base58->bytes data)
     :bytes #?(:clj  (byte-array data)
               :cljs data)
+    :string (bytes->string data)
+    :biginteger (biginteger->bytes data)
     (throw (ex-info "Unsupported format"
                     {:data   data
                      :format format}))))
