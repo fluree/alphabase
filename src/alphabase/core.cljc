@@ -125,7 +125,7 @@
       :base58 (bytes->base58 ba)
       :bytes ba
       :biginteger (bytes->biginteger ba)
-      :string (string->bytes ba)
+      :string (bytes->string ba)
       :none ba
       nil ba
       (throw (ex-info "Unsupported output-format"
@@ -143,7 +143,7 @@
      :base58 (base58->bytes data)
      :bytes #?(:clj  (byte-array data)
                :cljs data)
-     :string (bytes->string data)
+     :string (string->bytes data)
      :biginteger (biginteger->bytes data)
      (throw (ex-info "Unsupported format"
                      {:data   data
