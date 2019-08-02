@@ -9,6 +9,35 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ...
 
+## [3.1.4] - 2019-08-02
+
+### Added
+- Add check to return nil when empty string input to hex/decode
+
+
+## [3.1.3] - 2019-07-20
+
+### Fixed
+- Fix string/bytes swapping in base<->bytes functions
+
+### Added
+- Add string support to base->byte-array, byte-array->base functions
+- Add single-parity of base->byte-array, assuming string input
+
+
+## [3.1.0] - 2019-07-16
+
+### Added
+- Add string->bytes, bytes->string functions
+
+  
+## [3.0.2] - 2019-07-15
+
+### Added
+- Use Google libraries for base64 encoding
+- Bump Clojure dependencies
+
+
 ## [3.0.0] - 2019-03-14
 
 Fork of [greglook/alphabase](//github.com/greglook/alphabase/) with goal of 
