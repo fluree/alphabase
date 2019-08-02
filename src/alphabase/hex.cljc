@@ -48,11 +48,12 @@
   array is zero-padded to match the hex string length."
   ^bytes
   [^String data]
-  #?(:clj  (letfn [(unhexify-2 [c1 c2]
+  #?(:clj  (when-not (empty? data)
+             (letfn [(unhexify-2 [c1 c2]
                      (unchecked-byte
                        (+ (bit-shift-left (java.lang.Character/digit ^char c1 16) 4)
                           (java.lang.Character/digit ^char c2 16))))]
-             (byte-array (map #(apply unhexify-2 %) (partition 2 data))))
+               (byte-array (map #(apply unhexify-2 %) (partition 2 data)))))
      :cljs (when-not (empty? data)
              (let [length (/ (count data) 2)
                    array  (bytes/byte-array length)]
