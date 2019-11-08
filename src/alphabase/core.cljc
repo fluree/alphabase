@@ -9,14 +9,28 @@
 (defn string->bytes
   "Converts string to UTF-8 bytes"
   [s]
-  #?(:clj  (.getBytes ^String s)
-     :cljs (gcrypt/stringToByteArray s)))
+  #?(:clj  (.getBytes ^String s "UTF-8")
+     :cljs (gcrypt/stringToUtf8ByteArray s)))
 
 
 (defn bytes->string
-  "Converts UTF8 byte array to string"
+  "Converts UTF-8 byte array to string"
   [ba]
-  #?(:clj  (String. ba)
+  #?(:clj  (String. ba "UTF-8")
+     :cljs (gcrypt/utf8ByteArrayToString ba)))
+
+
+(defn string->bytes-UTF-16
+  "Converts string to UTF-16 bytes"
+  [s]
+  #?(:clj  (.getBytes ^String s "UTF-16")
+     :cljs (gcrypt/stringToByteArray s)))
+
+
+(defn bytes->string-UTF-16
+  "Converts UTF-16 byte array to string"
+  [ba]
+  #?(:clj  (String. ba "UTF-16")
      :cljs (gcrypt/byteArrayToString ba)))
 
 
