@@ -1,6 +1,8 @@
 /target
+/out
 /classes
 /checkouts
+/node_modules
 /.lein-*
 /.nrepl-port
 profiles.clj
@@ -10,3 +12,5 @@ pom.xml.asc
 *.class
 /.idea
 alphabase.iml
+package-lock.json
+.DS_Store

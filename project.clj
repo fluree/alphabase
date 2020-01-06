@@ -13,7 +13,7 @@
    "cljs:test"  ["doo" "rhino" "test" "once"]}
 
   :plugins
-  [[lein-cljsbuild "1.1.7"]
+  [[lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]
    [lein-doo "0.1.11"]]
 
   :cljsbuild
@@ -22,7 +22,17 @@
              :compiler     {:optimizations :whitespace
                             :output-dir    "target/cljs/out"
                             :output-to     "target/cljs/tests.js"
-                            :main          alphabase.test-runner}}]}
+                            :main          alphabase.test-runner}}
+
+            ;; build to execute test cases for CI
+            {:id           "ci-tests"
+             :source-paths ["src" "test"]
+             :compiler     {:main alphabase.test-runner
+                            :output-to "target/ci/testrunner.js"
+                            :output-dir "target/ci/out"
+                            :optimizations :advanced
+                            :pseudo-names true
+                            :pretty-print false}}]}
 
   :codox
   {:metadata    {:doc/format :markdown}
@@ -34,7 +44,8 @@
    {:dependencies
     [[criterium "0.4.4"]
      [org.clojure/clojure "1.10.1"]
-     [org.clojure/clojurescript "1.10.520"]]}
+     [org.clojure/clojurescript "1.10.520"]
+     [org.clojure/test.check "0.10.0"]]}
 
    :doo
    {:dependencies
