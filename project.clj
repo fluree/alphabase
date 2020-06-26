@@ -1,10 +1,13 @@
-(defproject fluree/alphabase "3.2.1"
+(defproject fluree/alphabase "3.2.1-SNAPSHOT"
   :description "Clojure(script) library to encode binary data with alphabet base strings."
   :url "https://github.com/fluree/alphabase"
   :license {:name "Public Domain"
             :url  "http://unlicense.org/"}
 
   :deploy-branches ["master"]
+
+  :deploy-repositories [["releases"  :clojars
+                         "snapshots" :clojars]]
 
   :aliases
   {"clj:test"   ["do" ["check"] ["test"]]
