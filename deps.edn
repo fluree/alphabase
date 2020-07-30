@@ -26,8 +26,12 @@
 
   :uberjar
   {:extra-deps {seancorfield/depstar {:mvn/version "RELEASE"}}
-   :main-opts ["-m" "hf.depstar.uberjar" "target/alphabase.jar"
-               "-C" "-m" "alphabase.core"]}
+   :main-opts ["-m" "hf.depstar.uberjar" "target/alphabase-standalone.jar"
+               "--compile" "--main" "alphabase.core"]}
+
+  :jar
+  {:extra-deps {seancorfield/depstar {:mvn/version "RELEASE"}}
+   :main-opts ["-m" "hf.depstar.jar" "target/alphabase.jar" "--compile"]}
 
   :install
   {:extra-deps {deps-deploy/deps-deploy {:mvn/version "RELEASE"}}

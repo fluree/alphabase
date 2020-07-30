@@ -1,7 +1,7 @@
-.PHONY: cljtest cljstest test uberjar js-deps install deploy clean
+.PHONY: cljtest cljstest test jar js-deps install deploy clean
 
 target/alphabase.jar: pom.xml src/deps.cljs deps.edn src/**/*
-	clojure -A:uberjar
+	clojure -A:jar
 
 pom.xml: deps.edn
 	clojure -Spom
@@ -11,7 +11,7 @@ src/deps.cljs: package.json
 
 js-deps: src/deps.cljs
 
-uberjar: target/alphabase.jar
+jar: target/alphabase.jar
 
 cljtest:
 	clojure -A:test:cljrunner
@@ -30,3 +30,5 @@ deploy: target/alphabase.jar
 clean:
 	rm -rf out
 	rm -rf target
+	rm -rf cljs-test-runner-out
+	rm -rf .cpcache
