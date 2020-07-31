@@ -31,7 +31,7 @@
 
   :jar
   {:extra-deps {seancorfield/depstar {:mvn/version "RELEASE"}}
-   :main-opts ["-m" "hf.depstar.jar" "target/alphabase.jar" "--compile"]}
+   :main-opts ["-m" "hf.depstar.jar" "target/alphabase.jar"]}
 
   :install
   {:extra-deps {deps-deploy/deps-deploy {:mvn/version "RELEASE"}}
