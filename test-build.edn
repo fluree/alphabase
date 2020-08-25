@@ -7,4 +7,5 @@
  :bundle-cmd {:none ["npx" "webpack" "out/test/index.js" "-o" "out/test/main.js" "--mode=development"]
               :default ["npx" "webpack" "out/test/index.js" "-o" "out/test/main.js"]}
  :closure-defines {cljs.core/*global* "window"}
- :optimizations :advanced}
+ :optimizations :advanced
+ :infer-externs true}
