@@ -24,11 +24,6 @@
   {:extra-deps {com.timetraveltoaster/target-bundle-libs {:mvn/version "RELEASE"}}
    :main-opts ["-m" "target-bundle-libs.core"]}
 
-  :uberjar
-  {:extra-deps {seancorfield/depstar {:mvn/version "RELEASE"}}
-   :main-opts ["-m" "hf.depstar.uberjar" "target/alphabase-standalone.jar"
-               "--compile" "--main" "alphabase.core"]}
-
   :jar
   {:extra-deps {seancorfield/depstar {:mvn/version "RELEASE"}}
    :main-opts ["-m" "hf.depstar.jar" "target/alphabase.jar"]}
