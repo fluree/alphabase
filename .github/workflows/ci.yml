@@ -1,0 +1,17 @@
+name: CI
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: 13 23 * * *
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run CLJ tests
+        run: script/run-in-docker.sh make cljtest
+      - name: Run CLJS tests
+        run: script/run-in-docker.sh make cljstest

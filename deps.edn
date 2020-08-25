@@ -1,0 +1,39 @@
+{:deps {org.clojure/clojure {:mvn/version "1.10.1"}
+        org.clojure/clojurescript {:mvn/version "1.10.773"}}
+ :aliases
+ {:test
+  {:extra-paths ["test"]
+   :extra-deps {org.clojure/test.check {:mvn/version "RELEASE"}}}
+
+  :cljrunner
+  {:extra-deps {com.cognitect/test-runner
+                {:git/url "https://github.com/cognitect-labs/test-runner"
+                 :sha "f7ef16dc3b8332b0d77bc0274578ad5270fbfedd"}}
+   :main-opts ["-m" "cognitect.test-runner" "-d" "test"]}
+
+  :cljsrunner
+  {:extra-deps {olical/cljs-test-runner
+                {:git/url "https://github.com/Olical/cljs-test-runner.git"
+                 :sha "7daff9a9a62cb8824bfccfb6ef7a429ecbac3e5c"}}
+   :main-opts ["-m" "cljs-test-runner.main"
+               "-D" "doo.edn"
+               "-c" "test-build.edn"
+               "-x" "chrome-headless"]}
+
+  :js-deps
+  {:extra-deps {com.timetraveltoaster/target-bundle-libs {:mvn/version "RELEASE"}}
+   :main-opts ["-m" "target-bundle-libs.core"]}
+
+  :jar
+  {:extra-deps {seancorfield/depstar {:mvn/version "RELEASE"}}
+   :main-opts ["-m" "hf.depstar.jar" "target/alphabase.jar"]}
+
+  :install
+  {:extra-deps {deps-deploy/deps-deploy {:mvn/version "RELEASE"}}
+   :main-opts ["-m" "deps-deploy.deps-deploy" "install"
+               "target/alphabase.jar"]}
+
+  :deploy
+  {:extra-deps {deps-deploy/deps-deploy {:mvn/version "RELEASE"}}
+   :main-opts ["-m" "deps-deploy.deps-deploy" "deploy"
+               "target/alphabase.jar"]}}}

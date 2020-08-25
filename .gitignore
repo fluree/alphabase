@@ -14,3 +14,5 @@ pom.xml.asc
 alphabase.iml
 package-lock.json
 .DS_Store
+/cljs-test-runner-out
+/.cpcache
