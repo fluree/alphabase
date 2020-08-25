@@ -15,3 +15,12 @@ jobs:
         run: script/run-in-docker.sh make cljtest
       - name: Run CLJS tests
         run: script/run-in-docker.sh make cljstest
+      - name: Notify Slack fail
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel_id: CNCH08G14 # development channel
+          status: FAILED
+          color: danger
